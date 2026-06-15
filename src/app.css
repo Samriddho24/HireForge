@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #0d0d0d;
+    color: #f0f0f0;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+  }
+  
+  /* Top navbar */
+  .navbar {
+    background-color: #111111;
+    border-bottom: 1px solid #7c3aed;
+    padding: 1rem 2rem;
+  }
+  
+  .navbar h1 {
+    color: #7c3aed;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+  
+  /* Main container */
+  .container {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+  
+  .container h2 {
+    font-size: 1.2rem;
+    color: #a78bfa;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+  }
+  
+  /* Every input and textarea */
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #1a1a1a;
+    border: 1px solid #3b3b3b;
+    border-radius: 8px;
+    color: #f0f0f0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  
+  input:focus, textarea:focus {
+    border-color: #7c3aed;
+  }
+  
+  textarea {
+    height: 120px;
+    resize: vertical;
+  }
+  
+  /* GitHub row */
+  .github-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .github-row input {
+    margin-bottom: 0;
+  }
+  
+  /* All buttons */
+  button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  
+  /* Fetch button - outlined purple */
+  .btn-secondary {
+    background-color: transparent;
+    border: 1px solid #7c3aed;
+    color: #a78bfa;
+    white-space: nowrap;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #7c3aed;
+    color: white;
+  }
+  
+  /* Analyze button - solid purple */
+  .btn-primary {
+    background-color: #7c3aed;
+    color: white;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  
+  .btn-primary:hover {
+    background-color: #6d28d9;
+  }
+  
+  /* Success messages */
+  .success-box {
+    background-color: #1a1a2e;
+    border: 1px solid #7c3aed;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #a78bfa;
+  }
+  
+  .success-box p {
+    margin: 0.2rem 0;
+  }
+  
+  /* Error message */
+  .error {
+    color: #f87171;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* File upload */
+  .upload-label {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: #1a1a1a;
+    border: 1px dashed #7c3aed;
+    border-radius: 8px;
+    color: #a78bfa;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .upload-label:hover {
+    background-color: #1e1e2e;
+  }
+  
+  /* Hide the default file input */
+  .hidden-input {
+    display: none;
+  }
