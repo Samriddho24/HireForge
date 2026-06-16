@@ -1,25 +1,27 @@
 import { useState } from 'react'
 import axios from "axios"
 import * as pdfjsLib from 'pdfjs-dist'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// This is fine outside - it's just a config, not a hook
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js`
+
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
 
 function InputForm() {
 
-  // ✅ ALL useState calls inside the function
   const [formData, setFormData] = useState({
-    resume: '',
     github: '',
     leetcode: '',
     skills: '',
     cgpa: ''
   })
+
   const [githubData, setGithubData] = useState(null)
   const [githubError, setGithubError] = useState('')
   const [resumeText, setResumeText] = useState('')
+  const [result, setResult] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  // ✅ ALL functions inside the function
   function handleChange(e) {
     setFormData({
       ...formData,
@@ -81,69 +83,114 @@ function InputForm() {
     }
   }
 
-  function handleSubmit() {
-    console.log('Form Data:', formData)
-    console.log('GitHub Data:', githubData)
-    console.log('Resume Text:', resumeText)
+  async function handleSubmit() {
+    setLoading(true)
+    setResult('')
+
+    const prompt = `
+You are an expert placement counselor for engineering students in India.
+
+Analyze this student's profile and give a detailed placement readiness report:
+
+RESUME:
+${resumeText || 'Not provided'}
+
+GITHUB PROFILE:
+- Name: ${githubData?.name || 'Not provided'}
+- Public Repos: ${githubData?.repos || 'Not provided'}
+- Followers: ${githubData?.followers || 'Not provided'}
+- Joined GitHub: ${githubData?.joined || 'Not provided'}
+
+LEETCODE STATS:
+${formData.leetcode || 'Not provided'}
+
+SKILLS:
+${formData.skills || 'Not provided'}
+
+CGPA:
+${formData.cgpa || 'Not provided'}
+
+Please provide:
+1. Resume Feedback (2-3 lines)
+2. GitHub Assessment (2-3 lines)
+3. LeetCode Assessment (2-3 lines)
+4. Overall Placement Readiness Score out of 100
+5. Top 3 things to improve in the next 30 days
+
+Be specific, honest, and encouraging.
+    `
+
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+      const response = await model.generateContent(prompt)
+      const text = response.response.text()
+      setResult(text)
+    } catch (err) {
+      console.log(err)
+      setResult('Something went wrong. Please try again.')
+    }
+
+    setLoading(false)
   }
 
   return (
     <div>
-      <h2>Enter Your Profile</h2>
+      <h2>ANALYZE YOUR PROFILE</h2>
 
+      {/* PDF Upload */}
+      <label className="upload-label" htmlFor="pdf-upload">
+        📄 {resumeText ? `✅ Resume uploaded! (${resumeText.length} characters)` : 'Click to upload Resume PDF'}
+      </label>
       <input
+        id="pdf-upload"
+        className="hidden-input"
         type="file"
         accept=".pdf"
         onChange={handlePdfUpload}
       />
-      {resumeText && <p>✅ Resume extracted! ({resumeText.length} characters)</p>}
 
-      <textarea
-        name="resume"
-        placeholder="Paste your resume summary..."
-        value={formData.resume}
-        onChange={handleChange}
-      />
-
-      <div>
+      {/* GitHub */}
+      <div className="github-row">
         <input
           type="text"
           name="github"
-          placeholder="GitHub profile URL e.g. https://github.com/sam"
+          placeholder="GitHub URL e.g. https://github.com/sam"
           value={formData.github}
           onChange={handleChange}
         />
-        <button onClick={fetchGithub}>Fetch GitHub Data</button>
+        <button className="btn-secondary" onClick={fetchGithub}>
+          Fetch GitHub
+        </button>
       </div>
 
-      {githubError && <p style={{color: 'red'}}>{githubError}</p>}
+      {githubError && <p className="error">{githubError}</p>}
 
       {githubData && (
-        <div>
+        <div className="success-box">
           <p>✅ GitHub fetched!</p>
-          <p>Name: {githubData.name}</p>
-          <p>Repos: {githubData.repos}</p>
-          <p>Followers: {githubData.followers}</p>
-          <p>Joined: {githubData.joined}</p>
+          <p>Name: {githubData.name} &nbsp;|&nbsp; Repos: {githubData.repos} &nbsp;|&nbsp; Followers: {githubData.followers}</p>
         </div>
       )}
 
+      {/* LeetCode */}
       <input
         type="text"
         name="leetcode"
-        placeholder="LeetCode username"
+        placeholder="LeetCode stats e.g. Easy: 45, Medium: 23, Hard: 2"
         value={formData.leetcode}
         onChange={handleChange}
       />
 
+      {/* Skills */}
       <input
         type="text"
         name="skills"
-        placeholder="Skills (e.g. React, Node, SQL)"
+        placeholder="Skills (e.g. React, Node, SQL, Python)"
         value={formData.skills}
         onChange={handleChange}
       />
 
+      {/* CGPA */}
       <input
         type="number"
         name="cgpa"
@@ -152,7 +199,26 @@ function InputForm() {
         onChange={handleChange}
       />
 
-      <button onClick={handleSubmit}>Analyze Profile</button>
+      {/* Analyze Button */}
+      <button className="btn-primary" onClick={handleSubmit}>
+        {loading ? '⏳ Analyzing...' : '⚡ Analyze My Profile'}
+      </button>
+
+      {/* Loading message */}
+      {loading && (
+        <p style={{color: '#a78bfa', textAlign: 'center', marginTop: '1rem'}}>
+          AI is analyzing your profile...
+        </p>
+      )}
+
+      {/* Result */}
+      {result && (
+        <div className="success-box" style={{marginTop: '2rem', whiteSpace: 'pre-wrap'}}>
+          <h3 style={{color: '#a78bfa', marginBottom: '1rem'}}>⚡ Your Placement Report</h3>
+          <p>{result}</p>
+        </div>
+      )}
+
     </div>
   )
 }
