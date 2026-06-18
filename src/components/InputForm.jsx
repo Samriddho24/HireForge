@@ -2,8 +2,9 @@ import { useState } from 'react'
 import axios from "axios"
 import * as pdfjsLib from 'pdfjs-dist'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import ReactMarkdown from 'react-markdown'
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js`
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs`
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
 
@@ -110,6 +111,18 @@ ${formData.skills || 'Not provided'}
 CGPA:
 ${formData.cgpa || 'Not provided'}
 
+IMPORTANT INSTRUCTIONS:
+- First, carefully read the RESUME text above and find the student's B.Tech graduation year (e.g. "B.Tech 2027", "Expected graduation: 2027", "2023-2027").
+- B.Tech is a 4-year program. Calculate the current year of study using this logic:
+  - If graduation year is 2026 → 4th year (final year)
+  - If graduation year is 2027 → 3rd year
+  - If graduation year is 2028 → 2nd year
+  - If graduation year is 2029 → 1st year
+  (Assume today's date is June 2026 when doing this calculation)
+- Clearly state in your report: "This student is currently in their Xth year (graduating in YYYY)."
+- Do NOT guess their year of study from GitHub join date or any other signal — only use the resume's graduation year and the calculation above.
+- If no graduation year is mentioned in the resume, say "Year of study not mentioned in resume" instead of guessing.
+
 Please provide:
 1. Resume Feedback (2-3 lines)
 2. GitHub Assessment (2-3 lines)
@@ -121,7 +134,7 @@ Be specific, honest, and encouraging.
     `
 
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+      const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' })
       const response = await model.generateContent(prompt)
       const text = response.response.text()
       setResult(text)
@@ -200,22 +213,25 @@ Be specific, honest, and encouraging.
       />
 
       {/* Analyze Button */}
-      <button className="btn-primary" onClick={handleSubmit}>
-        {loading ? '⏳ Analyzing...' : '⚡ Analyze My Profile'}
+      <button className="btn-primary" onClick={handleSubmit} disabled={loading}>
+        {loading ? 'Analyzing...' : 'Analyze profile'}
       </button>
-
+      
       {/* Loading message */}
       {loading && (
-        <p style={{color: '#a78bfa', textAlign: 'center', marginTop: '1rem'}}>
-          AI is analyzing your profile...
-        </p>
+        <div className="loading-row">
+          <span className="spinner"></span>
+          <span>Analyzing your profile...</span>
+        </div>
       )}
 
       {/* Result */}
       {result && (
-        <div className="success-box" style={{marginTop: '2rem', whiteSpace: 'pre-wrap'}}>
-          <h3 style={{color: '#a78bfa', marginBottom: '1rem'}}>⚡ Your Placement Report</h3>
-          <p>{result}</p>
+        <div className="report-box">
+          <h3 className="report-title">⚡ Your Placement Report</h3>
+          <div className="report-content">
+            <ReactMarkdown>{result}</ReactMarkdown>
+          </div>
         </div>
       )}
 
