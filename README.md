@@ -1,111 +1,68 @@
-# 🚀 HireForge AI
+# HireForge 🚀
 
-HireForge AI is an AI-powered placement readiness analyzer that helps students evaluate their current preparation level and receive a personalized improvement roadmap.
-
-The platform allows students to upload their resume, provide coding statistics, academic details, and technical skills. Based on these inputs, AI generates a detailed placement readiness report along with a customized 30-day preparation plan.
-
----
+HireForge is an AI-powered placement readiness analyzer designed to help students evaluate their current profile and receive actionable recommendations for improving their placement chances.
 
 ## ✨ Features
 
-### 📄 Resume Analysis
+* 📄 Resume Analysis through PDF upload
+* 💻 GitHub Profile Evaluation
+* 🧩 LeetCode Progress Tracking (Easy, Medium, Hard problems solved)
+* 🎯 Skills Assessment
+* 🎓 CGPA-Based Profile Evaluation
+* 🤖 AI-Powered Placement Readiness Score
+* 📈 Personalized 30-Day Improvement Plan
+* 📝 Detailed Career Improvement Report
 
-* Upload resume PDF
-* Extract and analyze candidate information
-* Identify strengths and improvement areas
+## 🚀 How It Works
 
-### 💻 Coding Profile Evaluation
+1. Upload your resume (PDF).
+2. Enter your GitHub profile link.
+3. Provide your LeetCode problem-solving statistics.
+4. Add your technical skills and CGPA.
+5. Click **Analyze Profile**.
+6. Receive:
 
-* Enter LeetCode problem counts
+   * Placement Readiness Score
+   * Strengths & Weaknesses Analysis
+   * Career Improvement Suggestions
+   * Personalized 30-Day Action Plan
 
-  * Easy Solved
-  * Medium Solved
-  * Hard Solved
-* Evaluate coding preparedness
-
-### 🔗 GitHub Profile Analysis
-
-* Provide GitHub profile link
-* Assess project activity and portfolio strength
-
-### 🎓 Academic Assessment
-
-* Enter CGPA
-* Include academic performance in readiness evaluation
-
-### 🛠 Skills Evaluation
-
-* Add technical skills manually
-* Analyze skill relevance for placements
-
-### 🤖 AI Placement Report
-
-Generate:
-
-* Placement Readiness Score
-* Strength Analysis
-* Weakness Analysis
-* Improvement Suggestions
-
-### 📅 Personalized 30-Day Roadmap
-
-AI creates:
-
-* DSA Targets
-* Project Improvement Tasks
-* Resume Enhancement Suggestions
-* Placement Preparation Strategy
-
----
-
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
 * React.js
 * CSS
-* JavaScript
 * Vite
-
-### Backend
-
-* Node.js
-* Express.js
 
 ### AI Integration
 
 * Gemini API
 
----
+## 🎯 Use Cases
 
-## 🚀 Workflow
+* Placement Preparation
+* Internship Readiness Assessment
+* Resume Improvement Guidance
+* Skill Gap Identification
+* Personalized Learning Roadmaps
 
-```text
-Upload Resume PDF
-        ↓
-Enter GitHub Link
-        ↓
-Enter LeetCode Statistics
-        ↓
-Enter Skills & CGPA
-        ↓
-Click Analyze
-        ↓
-AI Generates Report
-        ↓
-30-Day Placement Roadmap
-```
+## 📊 Report Generated
 
----
+HireForge evaluates multiple factors including:
 
+* Resume Quality
+* GitHub Activity
+* Coding Profile Strength
+* Technical Skills
+* Academic Performance (CGPA)
 
-## 🎯 Future Improvements
+Based on these factors, it generates a detailed report highlighting areas that require improvement and provides a structured 30-day roadmap for becoming more placement-ready.
 
-* Automatic LeetCode Profile Fetching
-* GitHub Repository Analysis
-* Resume ATS Score
+## 🔮 Future Enhancements
+
+* Automated LeetCode Profile Fetching
+* Resume ATS Score Analysis
+* Company-Specific Preparation Plans
 * Mock Interview Recommendations
-* Company-Specific Roadmaps
-* Placement Probability Prediction
-
-
+* Skill-Based Learning Resources
